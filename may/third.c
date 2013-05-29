@@ -20,6 +20,14 @@ long long int relative_max(int i, struct task *t)
 	return pay[j] + t[i].value;
 }
 
+int compare(const void *p, const void *q)
+{
+	const struct task *a = p;
+	const struct task *b = q;
+
+	return a->end - b->end;
+}
+
 int main()
 {
 	int i, n;
@@ -30,7 +38,10 @@ int main()
 		for (i = 0; i < n; i ++) {
 			scanf("%d %d %d", &tasks[i].begin, &tasks[i].end, &tasks[i].value);
 		}
-	
+
+		// 按照截至时间排序
+		qsort(tasks, n, sizeof(tasks[0]), compare);
+
 		// 典型的动态规划
 		// 最优子问题解为：max(cost[i - 1], task[i].value + 结束时间小于task[i].end的最大值)
 		pay[0] = tasks[0].value;
