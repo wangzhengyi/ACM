@@ -9,42 +9,45 @@ struct path
 #define MAX 1005
 
 int father[MAX];
-struct path paths[10005];
+int rank[MAX];
 
 int compare(const void *p, const void *q)
 {
-	const struct path* a = p;
-	const struct path* b = q;
+	const struct path *a = p;
+	const struct path *b = q;
 
 	return a->len - b->len;
 }
 
 int find_set(int x)
 {
-	while (father[x] != x) {
-		x = father[x];
-	}
-
-	return x;
+	int root;
+	if (x == father[x]) {
+		return x;
+	} 
+	root = find_set(father[x]);
+	father[x] = root;
+	return root;
 }
 
 int main()
 {
 	int i, n, m, u, v, mst, count;
-
+	struct path *paths;
 
 	while (scanf("%d %d", &n, &m) != EOF) {
 		// 初始化并查集数组
 		for (i = 1; i <= n; i ++) {
 			father[i] = i;
+			rank[i] = 1;
 		}
-		
+		paths = (struct path *)malloc(sizeof(struct path) * m);
+
 		// 接收边
 		for (i = 0; i < m; i ++) {
 			scanf("%d %d %d", &paths[i].u, &paths[i].v, &paths[i].len);
 		}
 
-		// 快速排序
 		qsort(paths, m, sizeof(paths[0]), compare);
 
 		// kruskal求最小生成树
@@ -52,13 +55,17 @@ int main()
 			u = find_set(paths[i].u);
 			v = find_set(paths[i].v);
 			if (u != v) {
-				father[u] = v;
-				mst += paths[i].len;			
-				// 控制次数，防止TLE
-				count ++;
-				if (count == n - 1) {
-					break;
+				if (rank[u] < rank[v]) {
+					father[u] = v;
+				} else {
+					father[v] = u;
+					if (rank[u] == rank[v]) {
+						rank[v] ++;
+					}
 				}
+				mst += paths[i].len;			
+				// 记录次数,判断连通性
+				count ++;
 			}
 		}
 
@@ -68,7 +75,8 @@ int main()
 		}else {
 			printf("%d\n", mst);
 		}
-
+		
+		free(paths);
 	}
 
 	return 0;
