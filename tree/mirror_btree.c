@@ -71,7 +71,7 @@ int main(void)
 					bt[i].lchild = left - 1;
 					bt[i].rchild = right - 1;
 					break;
-				case 'I' :
+				case 'l' :
 					scanf("%d", &left);
 					bt[i].lchild = left - 1;
 					break;
