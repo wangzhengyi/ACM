@@ -21,15 +21,17 @@ void lis(int *queue, int n)
 			left[i] = k;
 			l = 0, r = k - 1;
 			while (l <= r) {
-				mid = l + ((r - l) >> 1);
+				mid = (l + r) >> 1;
 				if (seq[mid] > queue[i])
 					r = mid - 1;
 				else if (seq[mid] < queue[i])
 					l = mid + 1;
-				else
+				else {
+					l = mid;
 					break;
+				}
 			}
-			seq[mid] = queue[i];
+			seq[l] = queue[i];
 		}
 	}
 	
@@ -52,15 +54,17 @@ void lis(int *queue, int n)
 			right[i] = k;
 			l = 0, r = k - 1;
 			while (l <= r) {
-				mid = l + ((r - l) >> 1);
+				mid = (l + r) >> 1;
 				if (seq[mid] > queue[i])
 					r = mid - 1;
 				else if (seq[mid] < queue[i])
 					l = mid + 1;
-				else
+				else {
+					l = mid;
 					break;
+				}
 			}
-			seq[mid] = queue[i];
+			seq[l] = queue[i];
 		}
 	}
 
