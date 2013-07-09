@@ -18,10 +18,10 @@ int judgeStrIllegal(char *str)
 	if (len == 0) {
 		flag = 1;
 	} else if (len == 1) {
-		if (!(str[0] >= '0' && str[0] <= '9'))
-			flag = 1;
-		else
+		if (str[0] >= '0' && str[0] <= '9')
 			flag = 0;
+		else
+			flag = 1;
 	} else {
 		for (i = 0, flag = 0; str[i] != '\0'; i ++) {
 			if (i == 0) {
