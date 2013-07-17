@@ -10,7 +10,7 @@ typedef struct lnode
 
 
 /**
- * Description:构建循环链表&&循环遍历
+ * 构建循环链表&&循环遍历
  */
 void create_ring(lnode **root, int loc, int n)
 {
@@ -40,20 +40,20 @@ void create_ring(lnode **root, int loc, int n)
 }
 
 /**
- * Description:约瑟夫环
+ * 约瑟夫环
  */
 void kickoff_ring(lnode *head, int p)
 {
 	int i;
 	lnode *pre, *pcur;
-	pcur = head;
-	pre = NULL;
+	pre = pcur = head;
 
 	while (pcur->next != pcur) {
 		for (i = 1; i < p; i ++) {
 			pre = pcur;
 			pcur = pcur->next;
 		}
+
 		printf("%d ", pcur->pos);
 		pre->next = pcur->next;
 		free(pcur);
@@ -63,6 +63,18 @@ void kickoff_ring(lnode *head, int p)
 	free(pcur);
 }
 
+
+void print_ring(lnode *head)
+{
+	lnode *cur; 
+	cur = head;
+
+	while (cur->next != head) {
+		printf("%d ", cur->pos);
+		cur = cur->next;
+	}
+	printf("%d\n", cur->pos);
+}
 
 int main()
 {
@@ -75,7 +87,10 @@ int main()
 			create_ring(&head, i, n);
 
 		// 约瑟夫环
-		kickoff_ring(head, p);
+		if (p != 1) 
+			kickoff_ring(head, p);
+		else
+			print_ring(head);
 	}
 
 	return 0;
