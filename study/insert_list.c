@@ -57,13 +57,7 @@ int main(void)
 		// 构建有序链表
 		for (i = 0, head = NULL; i < n; i ++) {
 			scanf("%d", &data);
-			if (i == 0) {
-				head = (node *)malloc(sizeof(node));
-				head->value = data;
-				head->next = NULL;
-			} else {
-				sllInsert(&head, data);				
-			}
+			sllInsert(&head, data);				
 		}
 
 		// 遍历有序链表
