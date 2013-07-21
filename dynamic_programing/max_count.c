@@ -38,7 +38,7 @@ int dynamicPackage(int *bill, int index, int limit)
 
 int main(void)
 {
-	int i, j, n, kind, flag, index, count, a, b, c, pay, *bill;
+	int i, j, n, kind, flag, index, count, pay, *bill;
 	char type;
 	double limit, price;
 
@@ -50,31 +50,19 @@ int main(void)
 		bill = (int *)malloc(sizeof(int) * (n + 1));
 		bill[0] = 0;
 		for (i = 0, index = 1; i < n; i ++) {
-			scanf("%d ", &kind);
-			count = a = b = c = 0;
+			scanf("%d", &kind);
+			count = 0;
 			for (j = 0, flag = 1; j < kind; j ++) {
-				// getchar();
-				scanf("%c:%lf ", &type, &price);
-
-				switch (type) {
-					case 'A' :
-						a += (int)(price * 100);
-						if (a > 60000) flag = 0;
-						break;
-					case 'B' :
-						b += (int)(price * 100);
-						if (b > 60000) flag = 0;
-						break;
-					case 'C' :
-						c += (int)(price * 100); 
-						if (c > 60000) flag = 0;
-						break;
-					default:
-						flag = 0;
-						break;
+				scanf(" %c:%lf", &type, &price);
+				
+				price = (int)(price * 100);
+				if (type - 'A' <= 2 && type - 'A' >= 0 && price <= 60000) {
+					count += price;
+				} else {
+					flag = 0;
+					break;
 				}
 
-				if (flag == 0) break;
 			}
 			
 			if (flag) {
