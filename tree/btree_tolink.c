@@ -8,58 +8,22 @@ typedef struct btree
 	struct btree *lchild, *rchild;
 } btree;
 
-int count, total;
-
-/**
- * 预处理接收字符串
- */
-int preProcessStr(char *nodes, int *btnode)
-{
-	int i, j, k, d;
-
-	for (i = k = 0; nodes[i] != '\0';) {
-		if (nodes[i] != ' ') {
-			d = nodes[i] - '0';
-			j = i + 1;
-			while (nodes[j] != ' ' && nodes[j] != '\0') {
-				d = 10 * d + nodes[j] - '0';
-				j ++;
-			}
-			btnode[k ++] = d;
-			i = j;
-		} else {
-			i ++;
-		}
-	}
-
-	/* 打印测试
-	for (i = 0; i < k; i ++)
-		printf("%d ", btnode[i]);
-	printf("\n");
-	*/
-
-	return k;
-}
-
 /**
  * 根据先序序列构建二叉树
  */
-btree* createBtree(int *btnode)
+void createBtree(btree **t)
 {
-	btree *t;
+	int data;
+	scanf("%d", &data);
 
-	if (btnode[count ++] == 0) {
-		t = NULL;
-	} else if (count >= total) { // 说明数据有问题
-		return NULL;
+	if (data == 0) {
+		*t = NULL;
 	} else {
-		t = (btree *)malloc(sizeof(btree));
-		t->value = btnode[count - 1];
-	    t->lchild = createBtree(btnode);
-		t->rchild = createBtree(btnode);	
+		*t = (btree *)malloc(sizeof(btree));
+		(*t)->value = data;
+	    createBtree(&(*t)->lchild);
+		createBtree(&(*t)->rchild);	
 	}
-
-	return t;
 }
 
 void convertNode(btree *pnode, btree **link)
@@ -104,19 +68,13 @@ btree* convertBtreeToList(btree *root)
 int main(void)
 {
 	int n;
-	char nodes[100000];
-	int btnode[100000];
 	btree *t, *link;
 
 	scanf("%d", &n);
 	getchar();
 	while (n --) {
-		gets(nodes);
-		total = preProcessStr(nodes, btnode);
-
 		// 构建二叉树
-		count = 0;
-		t = createBtree(btnode);
+		createBtree(&t);
 
 		// 转换为双向链表
 		link = convertBtreeToList(t);
