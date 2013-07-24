@@ -31,14 +31,14 @@ int dynamicPackage(int *bill, int index, int limit)
 			}
 		}
 	}
-	
+
 	return matrix[index % 2][limit];
 }
 
 
 int main(void)
 {
-	int i, j, n, kind, flag, index, count, pay, *bill;
+	int i, j, n, kind, flag, index, sum, asum, bsum, csum, pay, *bill;
 	char type;
 	double limit, price;
 
@@ -51,26 +51,38 @@ int main(void)
 		bill[0] = 0;
 		for (i = 0, index = 1; i < n; i ++) {
 			scanf("%d", &kind);
-			count = 0;
+			sum = asum = bsum = csum = 0;
 			for (j = 0, flag = 1; j < kind; j ++) {
-				scanf(" %c:%lf", &type, &price);
-				
-				price = (int)(price * 100);
-				if (type - 'A' <= 2 && type - 'A' >= 0 && price <= 60000) {
-					count += price;
-				} else {
-					flag = 0;
-					break;
-				}
+				getchar();
+				scanf("%c:%lf", &type, &price);
 
+				price = (int)(price * 100);
+				if (price > 60000) {
+					flag = 0;
+				}				
+
+				switch(type) {
+					case 'A' :
+						asum += price;
+						break;
+					case 'B' :
+						bsum += price;
+						break;
+					case 'C' :
+						csum += price;
+						break;
+					default :
+						flag = 0;
+						break;	
+				}
 			}
-			
-			if (flag) {
-				if (count <= 100000)  // 判断发票总额
-					bill[index ++] = count;
+
+			sum = asum + bsum + csum;
+			if (flag && sum <= 100000 && asum <= 60000 && bsum <= 60000 && csum <= 60000) {
+					bill[index ++] = sum;
 			}
 		}
-		
+
 		// 从低到高排序
 		qsort(bill, index, sizeof(bill[0]), compare);
 
