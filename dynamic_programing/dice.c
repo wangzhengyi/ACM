@@ -28,6 +28,10 @@ int main()
 					}
 				}
 			}
+			// 多谢wfxyjx的提醒,这里需要当有i个骰子时,不可能存在的点数重新赋值为0
+			for (k = 0; k < i; k ++) {
+				arr[i % 2][k] = 0.000;
+			}
 		}
 
 		for (count = pow(6, n), i = n; i <= n * 6; i ++)
