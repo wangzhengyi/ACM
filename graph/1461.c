@@ -54,7 +54,7 @@ void dfs(point st, point ed, int n, int m, int t)
 		new.y = st.y + dir[i][1];
 		new.time = st.time + 1;
 
-		if (overmap(new.x, new.y, n, m) && new.time <= t && matrix[new.x][new.y] == '.' && mark[new.x][new.y] == 0) {
+		if (overmap(new.x, new.y, n, m) && new.time <= t && matrix[new.x][new.y] != 'X' && mark[new.x][new.y] == 0) {
 			mark[new.x][new.y] = 1;
 			dfs(new, ed, n, m, t);
 			mark[new.x][new.y] = 0;
@@ -65,8 +65,7 @@ void dfs(point st, point ed, int n, int m, int t)
 
 int main(void)
 {
-	char ch;
-	int i, j, n, m, t;
+	int i, j, n, m, t, len;
 	point st, ed;
 
 	while (scanf("%d %d %d", &n, &m, &t) != EOF) {
@@ -76,24 +75,15 @@ int main(void)
 
 		// 接收变量
 		for (i = 0; i < n; i ++) {
-			getchar();
-			for (j = 0; j < m; j ++) {
-				scanf("%c", &ch);
-				switch (ch) {
-					case 'S' :
-						st.x = i;
-						st.y = j;
-						st.time = 0;
-						matrix[i][j] = '.';
-						break;
-					case 'D' :
-						ed.x = i;
-						ed.y = j;
-						matrix[i][j] = '.';
-						break;
-					default :
-						matrix[i][j] = ch;
-						break;
+			scanf("%s", matrix[i]);
+			for (j = 0, len = strlen(matrix[i]); j < len; j ++) {
+				if (matrix[i][j] == 'S') {
+					st.x = i;
+					st.y = j;
+					st.time = 0;
+				} else if (matrix[i][j] == 'D') {
+					ed.x = i;
+					ed.y = j;
 				}
 			}
 		}
