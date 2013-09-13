@@ -35,7 +35,36 @@ void buyStock(int *arr, int n, int k)
 	printf("%d\n", dp[k][n]);
 }
 
+/**
+ * 优化动态规划代码，tmp = dp[i - 1][k] - a[k]最大值即可，降了一维
+ */
+void optbuyStock(int *arr, int n, int k)
+{
+	int i, j, tmp, dp[N][N];
 
+	for (i = 0; i <= n; i ++)
+		dp[0][i] = 0;
+
+	for (i = 0; i <= k; i ++)
+		dp[i][0] = 0;
+
+	for (i = 1; i <= k; i ++) {
+		tmp = dp[i - 1][1] - arr[1];
+		dp[i][1] = 0;
+
+		for (j = 2; j <= n; j ++) {
+			dp[i][j] = dp[i][j - 1];
+
+			if (tmp + arr[j] > dp[i][j])
+				dp[i][j] = tmp + arr[j];
+
+			if (tmp < dp[i - 1][j] - arr[j])
+				tmp = dp[i - 1][j] - arr[j];	
+		}
+	}
+
+	printf("%d\n", dp[k][n]);
+}
 
 int main(void)
 {
@@ -48,7 +77,7 @@ int main(void)
 			scanf("%d", arr + i);
 		}
 
-		buyStock(arr, n, k);
+		optbuyStock(arr, n, k);
 
 		free(arr);
 	}
