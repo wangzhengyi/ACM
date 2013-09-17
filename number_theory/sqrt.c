@@ -27,7 +27,7 @@ double newSqrt(double n)
 
 		tmp = mid * mid;
 
-		if (abs(tmp - n) <= ACCURACY) {
+		if (tmp - n <= ACCURACY && tmp -n >= ACCURACY * -1) {
 			return mid;
 		} else if (tmp > n) {
 			high = mid;
