@@ -1,16 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * 快排优化，随机选取基准点
+ *
+ */
+void optimizeSort(int *arr, int bt, int ed)
+{
+	int mid = bt + ((ed - bt) >> 1);
+
+	// 不使用额外空间，进行两数互换
+	if (arr[bt] != arr[mid]) {
+		arr[bt] = arr[bt] ^ arr[mid];
+		arr[mid] = arr[bt] ^ arr[mid];
+		arr[bt] = arr[bt] ^ arr[mid];
+	}
+}
+
+/**
+ * 基准点排序
+ *
+ * T = O(n)
+ *
+ */
 int pivotLoc(int *arr, int bt, int ed)
 {
-	int mid, tmp, stand;
-
-	// 随机选取stand值
+	int stand;
+	
+	// 快排优化
 	if (bt < ed) {
-		mid = bt + ((ed - bt) >> 1);
-		tmp = arr[bt];
-		arr[bt] = arr[mid];
-		arr[mid] = tmp;
+		optimizeSort(arr, bt, ed);
 	}
 
 	stand = arr[bt];
@@ -28,6 +47,12 @@ int pivotLoc(int *arr, int bt, int ed)
 	return bt;
 }
 
+/**
+ * 快排入口代码，递归策略
+ *
+ * T = O(nlogn)
+ *
+ */
 void quickSort(int *arr, int bt, int ed)
 {
 	int pivot;
