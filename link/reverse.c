@@ -33,26 +33,41 @@ void createLink(link **head, int data)
 }
 
 /**
- * 翻转单链表
+ * 非递归翻转单链表
  */
-void reverseLink(link **head)
+link* reverseLink(link *head)
 {
+	if (head == NULL || head->next == NULL) {
+		return head;
+	}
+
 	link *pre, *cur, *post;
 
-	cur = *head;
+	cur = head;
 	pre = NULL;
 
 	while (cur != NULL) {
 		post = cur->next;
-	
-		if (post == NULL) {
-			*head = cur;
-		}
-
 		cur->next = pre;
 		pre = cur;
 		cur = post;
 	}
+
+	return pre;
+}
+
+/**
+ * 递归翻转单链表
+ */
+link* dreverseLink(link *cur, link *pre)
+{
+	if (cur == NULL)	return cur;
+
+	link *post = cur->next;
+
+	cur->next = pre;
+
+	return post == NULL ? cur : dreverseLink(post, cur);
 }
 
 /**
@@ -85,8 +100,10 @@ int main(void)
 		}
 		
 		// 翻转单链表
-		reverseLink(&head);
+		//head = reverseLink(head);
 
+		head = dreverseLink(head, NULL);
+			
 		if (head) {
 			printLink(head);
 		} else {
