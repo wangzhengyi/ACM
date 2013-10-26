@@ -7,6 +7,9 @@
 
 typedef unsigned int uint;
 
+/**
+ * 字符串转整形
+ */
 uint ipTint(char *ipstr)
 {
 	if (ipstr == NULL)	return 0;
@@ -28,6 +31,9 @@ uint ipTint(char *ipstr)
 	return total;
 }
 
+/**
+ * 逆置字符串
+ */
 void swapStr(char *str, int begin, int end)
 {
 	int i, j;
@@ -41,6 +47,9 @@ void swapStr(char *str, int begin, int end)
 	}
 }
 
+/**
+ * 整形转ip字符串
+ */
 char* ipTstr(uint ipint)
 {
 	char *new = (char *)malloc(LEN);
