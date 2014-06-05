@@ -1,3 +1,0 @@
-> ni hao
-
->> ceshi
